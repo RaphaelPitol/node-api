@@ -7,6 +7,7 @@ function ensureAuthenticated(request, response, next ){
 
      const authHeader = request.headers.authorization;
    
+   
      if(!authHeader){
           throw new AppError( "JwT token não informado", 401)
      }

@@ -32,6 +32,7 @@ const multerOptions = {
 
 const MULTER = multer(multerOptions);
 
+
 module.exports = {
   TMP_FOLDER,
   UPLOADS_FOLDER,

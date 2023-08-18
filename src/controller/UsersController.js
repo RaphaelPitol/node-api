@@ -39,7 +39,9 @@ class UsersController {
     const user_id = request.user.id;
 
     const database = await sqliteConenection();
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id]);
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [
+      user_id,
+    ]);
 
     if (!user) {
       throw new AppError("Usuario não encontrado");
@@ -59,9 +61,7 @@ class UsersController {
         "Voce precisa informar a senha antiga para definir a nova senha! "
       );
     }
-    if(password === old_password){
-      throw new AppError("As senha nova deve ser diferente da Antiga")
-    }
+    
 
     if (password && old_password) {
       const checkOldPassword = await compare(old_password, user.password);
@@ -69,19 +69,21 @@ class UsersController {
       if (!checkOldPassword) {
         throw new AppError("A senha antiga não confere!");
       }
+      if (password === old_password) {
+        throw new AppError("As senha nova deve ser diferente da Antiga");
+      }
 
       user.password = await hash(password, 8);
     }
-    
 
     await database.run(
       `
-    UPDATE users SET
-    name = ?,
-    email = ?,
-    password = ?,
-    updaded_at = DATETIME('now')
-    WHERE id = ?`,
+      UPDATE users SET
+      name = ?,
+      email = ?,
+      password = ?,
+      updaded_at = DATETIME('now')
+      WHERE id = ?`,
       [user.name, user.email, user.password, user_id]
     );
 
