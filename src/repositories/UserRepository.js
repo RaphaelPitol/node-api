@@ -17,7 +17,45 @@ class UserRepository {
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
       [name, email, password]
     );
-    return {id: userId}
+    return { id: userId };
+  }
+
+  
+  async findById(id) {
+    const database = await sqliteConnection();
+    const user = await database.get("SELECT * FROM users WHERE id =(?)", [
+      id,
+    ]);
+    return user;
+  }
+  async update({id, name, email, password }) {
+    const database = await sqliteConnection();
+    const user = await database.run(
+      `
+      UPDATE users SET
+      name = ?,
+      email = ?,
+      password = ?,
+      updaded_at = DATETIME('now')
+      WHERE id = ?`,
+      [name, email, password, id]
+    );
+    
+    return {id:user};
+  }
+  async updateNotPassword({id, name, email}) {
+    const database = await sqliteConnection();
+    const user = await database.run(
+      `
+      UPDATE users SET
+      name = ?,
+      email = ?,
+      updaded_at = DATETIME('now')
+      WHERE id = ?`,
+      [name, email, id]
+    );
+    
+    return {id:user};
   }
 }
 module.exports = UserRepository;

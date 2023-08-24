@@ -2,10 +2,9 @@ const { hash, compare } = require("bcryptjs");
 
 const AppError = require("../utils/AppError");
 
-const sqliteConenection = require("../dataBase/sqlite");
+const sqliteConnection = require("../dataBase/sqlite");
 const UserRepository = require("../repositories/UserRepository");
-const UserCreateService = require('../services/UserCreateService')
-
+const UserCreateService = require("../services/UserCreateService");
 
 class UsersController {
   async create(request, response) {
@@ -14,59 +13,25 @@ class UsersController {
     const userRepository = new UserRepository();
     const userCreateService = new UserCreateService(userRepository);
 
-    await userCreateService.execute({name, email, password});
+    await userCreateService.execute({ name, email, password });
     return response.status(201).json();
   }
 
   async update(request, response) {
-    const { name, email, password, old_password } = request.body;
-    const user_id = request.user.id;
+    const userData = request.body
+    const user = request.user.id
 
-    const database = await sqliteConenection();
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id,]);
+   
+    const userRepository = new UserRepository();
+    const userCreateService = new UserCreateService(userRepository);
 
-    if (!user) {
-      throw new AppError("Usuario não encontrado");
-    }
-    const userWithUpdateEmail = await database.get(
-      "SELECT * FROM users WHERE email = (?)",
-      [email]
-    );
-    if (userWithUpdateEmail && userWithUpdateEmail.id !== user.id) {
-      throw new AppError("Este email ja esta em uso.");
-    }
-    user.name = name ?? user.name;
-    user.email = email ?? user.email;
-
-    if (password && !old_password) {
-      throw new AppError(
-        "Voce precisa informar a senha antiga para definir a nova senha! "
-      );
-    }
-
-    if (password && old_password) {
-      const checkOldPassword = await compare(old_password, user.password);
-
-      if (!checkOldPassword) {
-        throw new AppError("A senha antiga não confere!");
-      }
-      if (password === old_password) {
-        throw new AppError("As senha nova deve ser diferente da Antiga");
-      }
-
-      user.password = await hash(password, 8);
-    }
-
-    await database.run(
-      `
-      UPDATE users SET
-      name = ?,
-      email = ?,
-      password = ?,
-      updaded_at = DATETIME('now')
-      WHERE id = ?`,
-      [user.name, user.email, user.password, user_id]
-    );
+    await userCreateService.updateUser({
+      id: user,
+      old_password: userData.old_password,
+      password: userData.password,
+      name: userData.name,
+      email: userData.email
+    });
 
     return response.status(200).json();
   }
