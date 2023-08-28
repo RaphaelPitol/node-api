@@ -32,7 +32,7 @@ class UserCreateService {
     const userEmail = await this.userRepository.findByEmail(email);
 
     const checkEmail = userEmail ? userEmail.email : null;
-    console.log(password);
+   
 
     if (!user.id) {
       throw new AppError("Usuario não encontrado");
