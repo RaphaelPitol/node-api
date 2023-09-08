@@ -16,6 +16,7 @@ class UserCreateService {
       throw new AppError("Este e-mail ja esta em uso.");
     }
 
+   
     const hashedPassword = await hash(password, 8);
     const userCreated = await this.userRepository.create({
       name,
@@ -32,9 +33,9 @@ class UserCreateService {
     const userEmail = await this.userRepository.findByEmail(email);
 
     const checkEmail = userEmail ? userEmail.email : null;
+  
    
-
-    if (!user.id) {
+    if (!user?.id) {
       throw new AppError("Usuario não encontrado");
     }
 
@@ -54,6 +55,7 @@ class UserCreateService {
       throw new AppError("Voce precisa informar a nova senha! ");
     }
 
+    
     if (user.password && old_password) {
       const checkOldPassword = await compare(old_password, user.password);
 
