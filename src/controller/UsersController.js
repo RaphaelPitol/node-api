@@ -31,6 +31,15 @@ class UsersController {
 
     return response.status(200).json();
   }
+  async list(request, response){
+    const userRepository = new UserRepository();
+    const userCreateService = new UserCreateService(userRepository);
+    
+    const users = await userCreateService.lista()
+
+    return response.json(users)
+
+  }
 }
 
 module.exports = UsersController;

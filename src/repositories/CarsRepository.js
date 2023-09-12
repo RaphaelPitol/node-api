@@ -17,26 +17,27 @@ class CarsRepository {
 
      async lista() {
           // const list = await knex("*").from("cars")
-          try{
-               // const list = await knex.from("cars")
-               //      .innerJoin("users","cars.user_id","=", "users.id")
-                    // console.log(list)
-                    // list.map(cars=>{
-                    //      console.log(cars.nome)
-                    //      console.log(cars.name)
-                    // })
+          // try{
+          //      // const list = await knex.from("cars")
+          //      //      .innerJoin("users","cars.user_id","=", "users.id")
+          //           // console.log(list)
+          //           // list.map(cars=>{
+          //           //      console.log(cars.nome)
+          //           //      console.log(cars.name)
+          //           // })
                     const list = await knex('cars')
                     .join('users', 'cars.user_id', '=', 'users.id')
                     .select('cars.nome', 'cars.marca', 'cars.ano_fabricacao', 'users.name')
                     
                   
                     return list;
-               }catch(error){
-                    console.log(error)
+               // }catch(error){
+               //      console.log(error)
                  
           }
+          
 
-     }
+     
    
 
 }

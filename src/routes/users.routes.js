@@ -20,5 +20,6 @@ usersRoutes.patch(
   upload.single("avatar"),
   userAvatarController.update
 );
+usersRoutes.get("/",userController.list)
 
 module.exports = usersRoutes;

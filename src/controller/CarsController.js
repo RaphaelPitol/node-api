@@ -4,8 +4,6 @@ const CarsRepository = require("../repositories/CarsRepository")
 class CarsController {
      async create(request, response) {
           const dados = request.body
-          const id = request.user.id
-          console.log(id)
           const carsRepository = new CarsRepository()
           const carsService = new CarsService(carsRepository)
 
@@ -13,7 +11,7 @@ class CarsController {
                nome: dados.nome,
                marca: dados.marca,
                ano_fabricacao: dados.ano_fabricacao,
-               user_id: id
+               user_id: dados.user_id
                
           })
           return response.json()
@@ -25,10 +23,10 @@ class CarsController {
           const carsService = new CarsService(carsRepository)
 
           
-            const t = await carsService.listaCars()
-            
+            const list = await carsService.listaCars()
+           
 
-          return response.json(t)
+          return response.json(list)
      }
 
 }

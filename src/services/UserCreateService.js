@@ -89,6 +89,12 @@ class UserCreateService {
 
     return userUpdate;
   }
+
+  async lista(){
+    const userList = await this.userRepository.listUser()
+   
+    return userList
+  }
 }
 
 module.exports = UserCreateService;

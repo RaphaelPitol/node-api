@@ -57,5 +57,13 @@ class UserRepository {
     
     return {id:user};
   }
+
+  async listUser(){
+    const database = await sqliteConnection()
+    const users = await database.all("SELECT name, id FROM users")
+    console.log(users)
+
+    return users
+  }
 }
 module.exports = UserRepository;

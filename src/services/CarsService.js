@@ -10,7 +10,7 @@ class CarsService{
           if(!nome || !marca || !ano_fabricacao){
              throw new AppError("Informar todos os dados!")
           }
-         
+         console.log(nome)
           const newCar = await this.carsRepository.create({
                nome,
                marca,
