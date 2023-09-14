@@ -9,7 +9,6 @@ class CarsService {
     if (!nome || !marca || !ano_fabricacao) {
       throw new AppError("Informar todos os dados!");
     }
-    console.log(nome);
     const newCar = await this.carsRepository.create({
       nome,
       marca,
@@ -30,6 +29,17 @@ class CarsService {
     await this.carsRepository.delete({ id });
 
     return;
+  }
+
+  async updadeCar({id, nome, marca, ano_fabricacao, user_id}){
+    const upCars = await this.carsRepository.update({
+      id,
+      nome,
+      marca,
+      ano_fabricacao,
+      user_id
+    })
+    return upCars;
   }
 }
 module.exports = CarsService;

@@ -13,28 +13,33 @@ class CarsRepository {
   }
 
   async lista() {
-    // const list = await knex("*").from("cars")
-    // try{
-    //      // const list = await knex.from("cars")
-    //      //      .innerJoin("users","cars.user_id","=", "users.id")
-    //           // console.log(list)
-    //           // list.map(cars=>{
-    //           //      console.log(cars.nome)
-    //           //      console.log(cars.name)
-    //           // })
     const list = await knex("cars")
       .join("users", "cars.user_id", "=", "users.id")
-      .select("cars.id", "cars.nome", "cars.marca", "cars.ano_fabricacao", "users.name");
+      .select(
+        "cars.id",
+        "cars.nome",
+        "cars.marca",
+        "cars.ano_fabricacao",
+        "users.name"
+      );
 
     return list;
-    // }catch(error){
-    //      console.log(error)
   }
 
   async delete({ id }) {
     await knex("cars").where({ id }).delete();
 
     return;
+  }
+
+  async update({ id, nome, marca, ano_fabricacao, user_id }) {
+    const updadeCars = await knex("cars").where("id", "=", id).update({
+      nome,
+      marca, 
+      ano_fabricacao,
+      user_id
+    });
+    return updadeCars;
   }
 }
 module.exports = CarsRepository;

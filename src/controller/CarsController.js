@@ -34,6 +34,17 @@ class CarsController {
 
     return response.json();
   }
+
+  async update(request, response) {
+    const { id, nome, marca, ano_fabricacao, user_id } = request.body;
+
+    const carsRepository = new CarsRepository();
+    const carsService = new CarsService(carsRepository);
+
+    await carsService.updadeCar({ id, nome, marca, ano_fabricacao, user_id });
+
+    return response.json();
+  }
 }
 
 module.exports = CarsController;
