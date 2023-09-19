@@ -45,6 +45,18 @@ class CarsController {
 
     return response.json();
   }
+
+  async index(request, response) {
+    const { id } = request.params;
+   
+    const carsRepository = new CarsRepository();
+    const carsService = new CarsService(carsRepository);
+
+    const ind = await carsService.carIndex( {id} );
+    
+
+    return response.json(ind);
+  }
 }
 
 module.exports = CarsController;

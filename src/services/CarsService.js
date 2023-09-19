@@ -41,5 +41,12 @@ class CarsService {
     })
     return upCars;
   }
+
+  async carIndex({id}){
+    
+    const car = await this.carsRepository.index({id})
+
+    return car;
+  }
 }
 module.exports = CarsService;

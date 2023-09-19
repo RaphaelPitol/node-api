@@ -41,5 +41,11 @@ class CarsRepository {
     });
     return updadeCars;
   }
+
+  async index ({id}){
+    const carIndex = await knex("cars").select("*").where({id}).first()
+
+    return carIndex
+  }
 }
 module.exports = CarsRepository;

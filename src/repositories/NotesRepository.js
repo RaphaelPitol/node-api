@@ -33,6 +33,7 @@ class NotesRepository {
   async show({ id }) {
     const note = await knex("notes").where({ id }).first();
 
+
     
     const tags = await knex("tags").where({ note_id: note.id }).orderBy("name");
     const links = await knex("links")
