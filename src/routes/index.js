@@ -5,9 +5,11 @@ const notesRoutes = require("./notes.routes");
 const tagsRoutes = require("./tags.routes");
 const sessionsRoutes = require("./sessions.routes");
 const carsRoutes = require("./cars.routes");
+const enderecoRoutes = require('./endereco.routes')
 
 const routes = Router();
 
+routes.use("/endereco", enderecoRoutes)
 routes.use("/cars", carsRoutes)
 routes.use("/users", usersRoutes);
 routes.use("/sessions", sessionsRoutes);
