@@ -1,6 +1,6 @@
 exports.up = knex => knex.schema.createTable("endereco", table =>{
      table.increments("id");
-     table.text("nomeRua");
+     table.text("nomeEnd");
      table.text("bairro");
      table.text("cidade");
      table.integer("numero");

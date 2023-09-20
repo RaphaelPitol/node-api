@@ -1,12 +1,12 @@
-
+const sqliteConnection = require("../dataBase/sqlite");
 class EnderecoRepositoryMemory{
 
      end=[];
 
-     async create({nomeRua, bairro, numero, cidade, complemento, cep, estado, user_id}){
+     async create({nomeEnd, bairro, numero, cidade, complemento, cep, estado, user_id}){
           const endereco = {
                id: Math.floor(Math.random()*1000) + 1,
-               nomeRua,
+               nomeEnd,
                bairro,
                numero,
                cidade,
@@ -18,6 +18,14 @@ class EnderecoRepositoryMemory{
           this.end.push(endereco)
           return endereco;
      }
+
+     async findById(id) {
+          const database = await sqliteConnection();
+          const user = await database.get("SELECT * FROM users WHERE id =(?)", [
+            id,
+          ]);
+          return user;
+        }
 
 }
 

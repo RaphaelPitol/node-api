@@ -9,9 +9,9 @@ class EnderecoController{
           const enderecoRepository = new EnderecoRepository()
           const enderecoService = new EnderecoService(enderecoRepository)
 
-          try{
+          // try{
                await enderecoService.createEndereco({
-                    nomeRua: dados.nomeRua, 
+                    nomeEnd: dados.nomeEnd, 
                     bairro: dados.bairro, 
                     numero: dados.numero,
                     cidade: dados.cidade, 
@@ -22,9 +22,9 @@ class EnderecoController{
                })
 
                return response.json()
-          }catch(error){
-               console.log(error)
-          }
+          // }catch(error){
+          //      console.log(error)
+          // }
 
      }
 

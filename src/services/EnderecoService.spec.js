@@ -15,7 +15,7 @@ describe("Teste Endereco", ()=>{
      it("Create Endereco", async()=>{
 
           const endereco ={
-               nomeRua: "Rua A", 
+               nomeEnd: "Rua A", 
                bairro: "Ali", 
                numero: "5",
                cidade: "Carbonera", 
@@ -32,7 +32,7 @@ describe("Teste Endereco", ()=>{
      it("Verificando Cep com 8 numeros", async()=>{
 
           const endereco ={
-               nomeRua: "Rua A", 
+               nomeEnd: "Rua A", 
                bairro: "Ali", 
                numero: "5",
                cidade: "Carbonera", 
@@ -48,7 +48,7 @@ describe("Teste Endereco", ()=>{
      it("Verificando Cep contem letras", async()=>{
 
           const endereco ={
-               nomeRua: "Rua A", 
+               nomeEnd: "Rua A", 
                bairro: "Ali", 
                numero: "5",
                cidade: "Carbonera", 
@@ -64,7 +64,7 @@ describe("Teste Endereco", ()=>{
      it("Verificando Campos Obrigatorios", async()=>{
 
           const endereco ={
-               nomeRua: "", 
+               nomeEnd: "", 
                bairro: "Ali", 
                numero: "5",
                cidade: "Carbonera", 
@@ -76,5 +76,21 @@ describe("Teste Endereco", ()=>{
           
           await  expect(enderecoService.createEndereco(endereco))
                .rejects.toEqual(new AppError("Informe os campos Obrigatorios!"))
+     })
+     it("Verificando se Usuario existe", async()=>{
+
+          const endereco ={
+               nomeEnd: "rua aa", 
+               bairro: "Ali", 
+               numero: "5",
+               cidade: "Carbonera", 
+               complemento: "logali", 
+               cep: "12345678", 
+               estado: "Sp", 
+               user_id: "2000"
+          }
+          
+          await  expect(enderecoService.createEndereco(endereco))
+               .rejects.toEqual(new AppError("Usuario não encontrado!", 400))
      })
 })
