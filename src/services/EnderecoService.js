@@ -1,10 +1,13 @@
 
+
 const AppError = require("../utils/AppError");
+const { response } = require("express");
 
 
 class EnderecoService {
-     constructor(enderecoRepository){
+     constructor(enderecoRepository, userRepository){
           this.enderecoRepository = enderecoRepository
+          this.userRepository = userRepository
           
      }
 
@@ -25,7 +28,7 @@ class EnderecoService {
                throw new AppError("O cep deve ser somente numeros!", 400)
           }
          
-          const userExists = await this.enderecoRepository.findById(user_id);
+          const userExists = await this.userRepository.findById(user_id);
            if (!userExists) {
                throw new AppError("Usuario não encontrado!");
           }
@@ -43,5 +46,10 @@ class EnderecoService {
           return newEnd
 
      }
+
+     async deleteEnd({ id }) {
+          await this.enderecoRepository.delete({ id });
+          return 200;
+        }
 }
 module.exports = EnderecoService

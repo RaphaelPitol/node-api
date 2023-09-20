@@ -1,15 +1,17 @@
 const EnderecoService = require('../services/EnderecoService')
 const EnderecoRepository = require("../repositories/EnderecoRepository")
+const UserRepository = require('../repositories/UserRepository')
 
 
 class EnderecoController{
      async create(request, response){
           const dados = request.body 
 
+          const userRepository = new UserRepository()
           const enderecoRepository = new EnderecoRepository()
-          const enderecoService = new EnderecoService(enderecoRepository)
+          const enderecoService = new EnderecoService(enderecoRepository, userRepository)
 
-          // try{
+
                await enderecoService.createEndereco({
                     nomeEnd: dados.nomeEnd, 
                     bairro: dados.bairro, 
@@ -22,10 +24,19 @@ class EnderecoController{
                })
 
                return response.json()
-          // }catch(error){
-          //      console.log(error)
-          // }
+       
 
+     }
+
+     async delete(request, response){
+          const {id} = request.params
+
+          const enderecoRepository = new EnderecoRepository()
+          const enderecoService = new EnderecoService(enderecoRepository)
+
+          await enderecoService.deleteEnd({id})
+
+          return response.json()
      }
 
 }

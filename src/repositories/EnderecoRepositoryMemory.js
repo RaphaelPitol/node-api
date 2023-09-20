@@ -1,4 +1,4 @@
-const sqliteConnection = require("../dataBase/sqlite");
+
 class EnderecoRepositoryMemory{
 
      end=[];
@@ -18,14 +18,6 @@ class EnderecoRepositoryMemory{
           this.end.push(endereco)
           return endereco;
      }
-
-     async findById(id) {
-          const database = await sqliteConnection();
-          const user = await database.get("SELECT * FROM users WHERE id =(?)", [
-            id,
-          ]);
-          return user;
-        }
 
 }
 

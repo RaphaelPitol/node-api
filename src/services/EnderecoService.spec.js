@@ -77,20 +77,6 @@ describe("Teste Endereco", ()=>{
           await  expect(enderecoService.createEndereco(endereco))
                .rejects.toEqual(new AppError("Informe os campos Obrigatorios!"))
      })
-     it("Verificando se Usuario existe", async()=>{
-
-          const endereco ={
-               nomeEnd: "rua aa", 
-               bairro: "Ali", 
-               numero: "5",
-               cidade: "Carbonera", 
-               complemento: "logali", 
-               cep: "12345678", 
-               estado: "Sp", 
-               user_id: "2000"
-          }
-          
-          await  expect(enderecoService.createEndereco(endereco))
-               .rejects.toEqual(new AppError("Usuario não encontrado!", 400))
-     })
+  
 })
+

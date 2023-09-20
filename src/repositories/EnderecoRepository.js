@@ -1,5 +1,4 @@
 const knex = require('../dataBase/knex')
-const sqliteConnection = require("../dataBase/sqlite");
 
 class EnderecoRepository{
      async create({nomeEnd, bairro, numero, cidade, complemento, cep, estado, user_id}){
@@ -15,13 +14,11 @@ class EnderecoRepository{
           })
           return end;
      }
-     
-     async findById(id) {
-          const database = await sqliteConnection();
-          const user = await database.get("SELECT * FROM users WHERE id =(?)", [
-            id,
-          ]);
-          return user;
+
+     async delete({ id }) {
+          await knex("endereco").where({ id }).delete();
+      
+          return;
         }
 }
 
