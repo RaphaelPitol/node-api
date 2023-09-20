@@ -1,3 +1,4 @@
+const AppError = require("../utils/AppError")
 
 
 class EnderecoService{
@@ -5,13 +6,23 @@ class EnderecoService{
           this.enderecoRepository = enderecoRepository
      }
 
-     async createEndereco({nomeRua, bairro, numero, complemento, cep, estado, user_id}){
+     async createEndereco({nomeRua, bairro, numero, cidade, complemento, cep, estado, user_id}){
 
-          console.log({nomeRua})
+          if(!nomeRua || !bairro || !numero || !cidade || !cep ||  !user_id){
+               throw new AppError("Informe os campos Obrigatorios!")
+          }
+          
+          if(cep.length !== 8){
+               throw new AppError("O cep deve ter 8 numeros!")
+          }
+          if(isNaN(cep)){
+               throw new AppError("O cep deve ser somente numeros!")
+          }
           const newEnd = await this.enderecoRepository.create({
                nomeRua, 
                bairro, 
-               numero, 
+               numero,
+               cidade, 
                complemento, 
                cep, 
                estado, 

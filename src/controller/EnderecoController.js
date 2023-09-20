@@ -13,7 +13,8 @@ class EnderecoController{
                await enderecoService.createEndereco({
                     nomeRua: dados.nomeRua, 
                     bairro: dados.bairro, 
-                    numero: dados.numero, 
+                    numero: dados.numero,
+                    cidade: dados.cidade, 
                     complemento: dados.complemento, 
                     cep: dados. cep, 
                     estado: dados.estado,
