@@ -39,6 +39,14 @@ class EnderecoController{
           return response.json()
      }
 
+     async lista(request, response){
+          const enderecoRepository = new EnderecoRepository()
+          const enderecoService = new EnderecoService(enderecoRepository)
+
+          const list = await enderecoService.listaEnd()
+
+          return response.json(list)
+     }
 }
 
 module.exports = EnderecoController

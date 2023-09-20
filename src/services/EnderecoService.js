@@ -50,6 +50,13 @@ class EnderecoService {
      async deleteEnd({ id }) {
           await this.enderecoRepository.delete({ id });
           return 200;
-        }
+     }
+     
+     async listaEnd() {
+          const list = await this.enderecoRepository.lista();
+      
+          return list;
+     }
+     
 }
 module.exports = EnderecoService

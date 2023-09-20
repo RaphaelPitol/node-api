@@ -20,6 +20,24 @@ class EnderecoRepository{
       
           return;
         }
+
+     async lista() {
+          const list = await knex("endereco")
+            .join("users", "endereco.user_id", "=", "users.id")
+            .select(
+              "endereco.id",
+              "endereco.nomeEnd",
+              "endereco.bairro",
+              "endereco.numero",
+              "endereco.cidade",
+              "endereco.complemento",
+              "endereco.cep",
+              "endereco.estado",
+              "users.name"
+            );
+      
+          return list;
+        }
 }
 
 module.exports = EnderecoRepository;
