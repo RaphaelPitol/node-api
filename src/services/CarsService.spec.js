@@ -52,10 +52,7 @@ describe("Create Car", ()=>{
           const createCar = await carService.createCars(car1)
           const createCars = await carService.createCars(car2)
 
-          console.log(createCars)
           const list = await carService.listaCars()
-          console.log(list)
-          console.log(arrCars)
         
           expect(list.length).toEqual(arrCars.length)
      })
