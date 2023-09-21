@@ -52,8 +52,33 @@ class EnderecoService {
         return newEnd;
     }
 
-    async deleteEnd({ id }) {
+    async updateEnd({
+        id,
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        complemento,
+        cep,
+        estado,
+        user_id,
+    }) {
+        const upEnd = await this.enderecoRepository.update({
+            id,
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            complemento,
+            cep,
+            estado,
+            user_id,
+        });
 
+        return upEnd;
+    }
+
+    async deleteEnd({ id }) {
         const idEnd = await this.enderecoRepository.index({ id });
         if (!idEnd) {
             throw new AppError("Endereço não encontrado!");

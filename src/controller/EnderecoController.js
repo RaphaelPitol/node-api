@@ -1,52 +1,80 @@
-const EnderecoService = require('../services/EnderecoService')
-const EnderecoRepository = require("../repositories/EnderecoRepository")
-const UserRepository = require('../repositories/UserRepository')
+const EnderecoService = require("../services/EnderecoService");
+const EnderecoRepository = require("../repositories/EnderecoRepository");
+const UserRepository = require("../repositories/UserRepository");
 
+class EnderecoController {
+    async create(request, response) {
+        const dados = request.body;
 
-class EnderecoController{
-     async create(request, response){
-          const dados = request.body
+        const userRepository = new UserRepository();
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(
+            enderecoRepository,
+            userRepository
+        );
 
-          const userRepository = new UserRepository()
-          const enderecoRepository = new EnderecoRepository()
-          const enderecoService = new EnderecoService(enderecoRepository, userRepository)
+        await enderecoService.createEndereco({
+            nomeEnd: dados.nomeEnd,
+            bairro: dados.bairro,
+            numero: dados.numero,
+            cidade: dados.cidade,
+            complemento: dados.complemento,
+            cep: dados.cep,
+            estado: dados.estado,
+            user_id: dados.user_id,
+        });
 
+        return response.json();
+    }
 
-               await enderecoService.createEndereco({
-                    nomeEnd: dados.nomeEnd,
-                    bairro: dados.bairro,
-                    numero: dados.numero,
-                    cidade: dados.cidade,
-                    complemento: dados.complemento,
-                    cep: dados. cep,
-                    estado: dados.estado,
-                    user_id: dados.user_id
-               })
+    async update(request, response) {
+        const dados = request.body;
+        console.log(dados)
+        const userRepository = new UserRepository();
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(
+            enderecoRepository,
+            userRepository
+        );
 
-               return response.json()
+        try{
+            await enderecoService.updateEnd({
+                id: dados.id,
+                nomeEnd: dados.nomeEnd,
+                bairro: dados.bairro,
+                numero: dados.numero,
+                cidade: dados.cidade,
+                complemento: dados.complemento,
+                cep: dados.cep,
+                estado: dados.estado,
+                user_id: dados.user_id,
+            });
 
+        }catch(error){
+            console.log(error, "Teste")
+        }
+        return response.json({message:"Atualizado"});
+    }
 
-     }
+    async delete(request, response) {
+        const { id } = request.params;
 
-     async delete(request, response){
-          const {id} = request.params
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(enderecoRepository);
 
-          const enderecoRepository = new EnderecoRepository()
-          const enderecoService = new EnderecoService(enderecoRepository)
+        await enderecoService.deleteEnd({ id });
 
-          await enderecoService.deleteEnd({id})
+        return response.status(201).json({ message: "Deletado com sucesso" });
+    }
 
-          return response.status(201).json({message: 'Deletado com sucesso'})
-     }
+    async lista(request, response) {
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(enderecoRepository);
 
-     async lista(request, response){
-          const enderecoRepository = new EnderecoRepository()
-          const enderecoService = new EnderecoService(enderecoRepository)
+        const list = await enderecoService.listaEnd();
 
-          const list = await enderecoService.listaEnd()
-
-          return response.json(list)
-     }
+        return response.json(list);
+    }
 }
 
-module.exports = EnderecoController
+module.exports = EnderecoController;

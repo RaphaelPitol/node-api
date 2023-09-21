@@ -23,6 +23,30 @@ class EnderecoRepository {
         });
         return end;
     }
+    async update({
+        id,
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        complemento,
+        cep,
+        estado,
+        user_id,
+    }) {
+        const updateEnd = await knex("endereco").where("id", "=", id).update({
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            complemento,
+            cep,
+            estado,
+            user_id,
+        });
+
+        return updateEnd;
+    }
 
     async delete({ id }) {
         await knex("endereco").where({ id }).delete();

@@ -8,6 +8,7 @@ const enderecoController = new EnderecoController()
 enderecoRoutes.post('/', enderecoController.create)
 enderecoRoutes.delete('/:id',enderecoController.delete)
 enderecoRoutes.get('/',enderecoController.lista)
+enderecoRoutes.put('/', enderecoController.update)
 
 
 
