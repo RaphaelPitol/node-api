@@ -37,7 +37,7 @@ class EnderecoController {
             userRepository
         );
 
-        try{
+       
             await enderecoService.updateEnd({
                 id: dados.id,
                 nomeEnd: dados.nomeEnd,
@@ -50,9 +50,7 @@ class EnderecoController {
                 user_id: dados.user_id,
             });
 
-        }catch(error){
-            console.log(error, "Teste")
-        }
+
         return response.json({message:"Atualizado"});
     }
 
