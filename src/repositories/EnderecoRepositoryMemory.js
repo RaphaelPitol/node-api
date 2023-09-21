@@ -36,6 +36,10 @@ class EnderecoRepositoryMemory {
 
         return;
     }
+
+    async lista(){
+        return this.end
+    }
 }
 
 module.exports = EnderecoRepositoryMemory;

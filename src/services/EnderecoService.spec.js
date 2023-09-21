@@ -70,7 +70,9 @@ describe("Teste Endereco", () => {
         };
 
         await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
-            new AppError("Deve informar somente a Sigla com duas letras do estado")
+            new AppError(
+                "Deve informar somente a Sigla com duas letras do estado"
+            )
         );
     });
     it("Verificando Cep contem letras", async () => {
@@ -145,8 +147,54 @@ describe("Teste Endereco", () => {
         };
         const end = await enderecoService.createEndereco(endereco);
         let idTest = 10;
-        await expect(enderecoService.deleteEnd( {id: idTest })).rejects.toEqual(
+        await expect(enderecoService.deleteEnd({ id: idTest })).rejects.toEqual(
             new AppError("Endereço não encontrado!")
         );
+    });
+
+    it("Testando a listagem de endereço", async () => {
+        let user = {
+            name: "User test",
+            email: "user@test.com",
+            password: "123",
+        };
+        let us = await userService.execute(user);
+        const end1 = {
+            nomeEnd: "Rua A",
+            bairro: "Ali",
+            numero: "5",
+            cidade: "Carbonera",
+            complemento: "logali",
+            cep: "12345678",
+            estado: "Sp",
+            user_id: us.id,
+        };
+        const end2 = {
+            nomeEnd: "Rua A",
+            bairro: "Ali",
+            numero: "5",
+            cidade: "Carbonera",
+            complemento: "logali",
+            cep: "12345678",
+            estado: "Sp",
+            user_id: us.id,
+        };
+        const end3 = {
+            nomeEnd: "Rua A",
+            bairro: "Ali",
+            numero: "5",
+            cidade: "Carbonera",
+            complemento: "logali",
+            cep: "12345678",
+            estado: "Sp",
+            user_id: us.id,
+        };
+        await enderecoService.createEndereco(end1);
+        await enderecoService.createEndereco(end2);
+        await enderecoService.createEndereco(end3);
+
+        const d = await enderecoService.listaEnd()
+        console.log(d)
+        expect(d).resolves;
     });
 });
