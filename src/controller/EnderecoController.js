@@ -5,7 +5,7 @@ const UserRepository = require('../repositories/UserRepository')
 
 class EnderecoController{
      async create(request, response){
-          const dados = request.body 
+          const dados = request.body
 
           const userRepository = new UserRepository()
           const enderecoRepository = new EnderecoRepository()
@@ -13,18 +13,18 @@ class EnderecoController{
 
 
                await enderecoService.createEndereco({
-                    nomeEnd: dados.nomeEnd, 
-                    bairro: dados.bairro, 
+                    nomeEnd: dados.nomeEnd,
+                    bairro: dados.bairro,
                     numero: dados.numero,
-                    cidade: dados.cidade, 
-                    complemento: dados.complemento, 
-                    cep: dados. cep, 
+                    cidade: dados.cidade,
+                    complemento: dados.complemento,
+                    cep: dados. cep,
                     estado: dados.estado,
                     user_id: dados.user_id
                })
 
                return response.json()
-       
+
 
      }
 
@@ -36,7 +36,7 @@ class EnderecoController{
 
           await enderecoService.deleteEnd({id})
 
-          return response.json()
+          return response.status(201).json({message: 'Deletado com sucesso'})
      }
 
      async lista(request, response){

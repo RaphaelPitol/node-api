@@ -1,24 +1,41 @@
+class EnderecoRepositoryMemory {
+    end = [];
 
-class EnderecoRepositoryMemory{
+    async create({
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        complemento,
+        cep,
+        estado,
+        user_id,
+    }) {
+        const endereco = {
+            id: Math.floor(Math.random() * 1000) + 1,
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            complemento,
+            cep,
+            estado,
+            user_id,
+        };
+        this.end.push(endereco);
+        return endereco;
+    }
 
-     end=[];
+    async index({ id }) {
+        return this.end.find((ends) => ends.id === id);
+    }
+    async delete({ id }) {
+        const t = this.end.findIndex((bd) => bd.id === id);
 
-     async create({nomeEnd, bairro, numero, cidade, complemento, cep, estado, user_id}){
-          const endereco = {
-               id: Math.floor(Math.random()*1000) + 1,
-               nomeEnd,
-               bairro,
-               numero,
-               cidade,
-               complemento,
-               cep,
-               estado,
-               user_id
-          }
-          this.end.push(endereco)
-          return endereco;
-     }
+        this.end.splice(t);
 
+        return;
+    }
 }
 
-module.exports = EnderecoRepositoryMemory
+module.exports = EnderecoRepositoryMemory;
