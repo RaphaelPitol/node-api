@@ -29,7 +29,7 @@ class EnderecoController {
 
     async update(request, response) {
         const dados = request.body;
-        console.log(dados)
+      
         const userRepository = new UserRepository();
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(
@@ -37,7 +37,7 @@ class EnderecoController {
             userRepository
         );
 
-       
+
             await enderecoService.updateEnd({
                 id: dados.id,
                 nomeEnd: dados.nomeEnd,

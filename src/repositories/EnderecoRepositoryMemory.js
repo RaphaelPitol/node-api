@@ -37,8 +37,35 @@ class EnderecoRepositoryMemory {
         return;
     }
 
-    async lista(){
-        return this.end
+    async lista() {
+        return this.end;
+    }
+    async update({
+        id,
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        complemento,
+        cep,
+        estado,
+        user_id,
+    }) {
+        const ends = {
+            id,
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            complemento,
+            cep,
+            estado,
+            user_id,
+        };
+
+        this.end.push(ends);
+
+        return ends;
     }
 }
 
