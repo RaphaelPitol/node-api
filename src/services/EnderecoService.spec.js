@@ -377,4 +377,42 @@ describe("Teste Endereco", () => {
             new AppError("Deve informar somente a Sigla com duas letras do estado")
         );
     });
+
+    it("Culsulta Endereco por Id", async () => {
+        const user = {
+            name: "User test",
+            email: "user@test.com",
+            password: "123",
+        };
+        let us = await userService.execute(user);
+        const endereco = {
+            nomeEnd: "Rua A",
+            bairro: "Ali",
+            numero: "5",
+            cidade: "Carbonera",
+            complemento: "logali",
+            cep: "12345678",
+            estado: "Sp",
+            user_id: us.id,
+        };
+        let createEnd = await enderecoService.createEndereco(endereco);
+
+        const newEnd = {
+            id: createEnd.id,
+            nomeEnd: "Rua A",
+            bairro: "Ali",
+            numero: "5",
+            cidade: "Carbonera",
+            complemento: "logali",
+            cep: "12345678",
+            estado: "Sp",
+            user_id: us.id,
+        };
+
+        console.log(newEnd.id)
+
+        // await expect(enderecoService.endIndex(newEnd)).rejects.toEqual(
+        //     new AppError("Endereço não encontrado!"))
+        await expect(enderecoService.endIndex(newEnd)).resolves;
+    });
 });

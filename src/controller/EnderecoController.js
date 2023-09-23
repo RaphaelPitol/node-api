@@ -29,7 +29,7 @@ class EnderecoController {
 
     async update(request, response) {
         const dados = request.body;
-      
+
         const userRepository = new UserRepository();
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(
@@ -37,21 +37,19 @@ class EnderecoController {
             userRepository
         );
 
+        await enderecoService.updateEnd({
+            id: dados.id,
+            nomeEnd: dados.nomeEnd,
+            bairro: dados.bairro,
+            numero: dados.numero,
+            cidade: dados.cidade,
+            complemento: dados.complemento,
+            cep: dados.cep,
+            estado: dados.estado,
+            user_id: dados.user_id,
+        });
 
-            await enderecoService.updateEnd({
-                id: dados.id,
-                nomeEnd: dados.nomeEnd,
-                bairro: dados.bairro,
-                numero: dados.numero,
-                cidade: dados.cidade,
-                complemento: dados.complemento,
-                cep: dados.cep,
-                estado: dados.estado,
-                user_id: dados.user_id,
-            });
-
-
-        return response.json({message:"Atualizado"});
+        return response.json({ message: "Atualizado" });
     }
 
     async delete(request, response) {
@@ -72,6 +70,17 @@ class EnderecoController {
         const list = await enderecoService.listaEnd();
 
         return response.json(list);
+    }
+
+    async index(request, response) {
+        const { id } = request.params;
+        
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(enderecoRepository);
+
+        const end = await enderecoService.endIndex({ id });
+
+        return response.json(end);
     }
 }
 

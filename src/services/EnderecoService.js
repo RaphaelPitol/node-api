@@ -69,7 +69,6 @@ class EnderecoService {
         }
 
         if (!nomeEnd || !bairro || !numero || !cidade || !cep || !user_id) {
-
             throw new AppError("Informe os campos Obrigatorios!");
         }
         if (estado.length !== 2) {
@@ -117,6 +116,15 @@ class EnderecoService {
         const list = await this.enderecoRepository.lista();
 
         return list;
+    }
+
+    async endIndex({ id }) {
+        const end = await this.enderecoRepository.index({ id });
+        if (!end) {
+            throw new AppError("Endereço não encontrado!");
+        }
+
+        return end;
     }
 }
 module.exports = EnderecoService;
