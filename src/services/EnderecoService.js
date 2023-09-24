@@ -17,6 +17,7 @@ class EnderecoService {
         estado,
         user_id,
     }) {
+        console.log(user_id)
         if (!nomeEnd || !bairro || !numero || !cidade || !cep || !user_id) {
             // throw new Error('teste rapha')
             throw new AppError("Informe os campos Obrigatorios!");
@@ -27,17 +28,21 @@ class EnderecoService {
             );
         }
 
-        if (cep.length !== 8) {
+        console.log("testeeee")
+
+        let length = cep.toString().length;
+        console.log(length)
+        if (length !== 8) {
             throw new AppError("O cep deve ter 8 numeros!", 400);
         }
         if (isNaN(cep)) {
             throw new AppError("O cep deve ser somente numeros!", 400);
         }
-
         const userExists = await this.userRepository.findById(user_id);
         if (!userExists) {
             throw new AppError("Usuario não encontrado!");
         }
+
         const newEnd = await this.enderecoRepository.create({
             nomeEnd,
             bairro,

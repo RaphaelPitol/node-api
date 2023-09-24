@@ -74,7 +74,7 @@ class EnderecoController {
 
     async index(request, response) {
         const { id } = request.params;
-        
+
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
 
