@@ -5,7 +5,7 @@ const UserRepository = require("../repositories/UserRepository");
 class EnderecoController {
     async create(request, response) {
         const dados = request.body;
-
+        console.log(dados.cep)
         const userRepository = new UserRepository();
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(
