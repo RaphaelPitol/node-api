@@ -67,7 +67,7 @@ class EnderecoRepository {
                 "endereco.cep",
                 "endereco.estado",
                 "users.name"
-            ).orderBy("endereco.id");
+            ).orderBy("endereco.id", "desc");
 
         return list;
     }
