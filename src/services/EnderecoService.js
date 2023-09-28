@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError");
-const { response } = require("express");
+
+
 
 class EnderecoService {
     constructor(enderecoRepository, userRepository) {
@@ -17,7 +18,6 @@ class EnderecoService {
         estado,
         user_id,
     }) {
-        console.log(user_id)
         if (!nomeEnd || !bairro || !numero || !cidade || !cep || !user_id) {
             // throw new Error('teste rapha')
             throw new AppError("Informe os campos Obrigatorios!");
@@ -28,10 +28,8 @@ class EnderecoService {
             );
         }
 
-        console.log("testeeee")
-
         let length = cep.toString().length;
-        console.log(length)
+
         if (length !== 8) {
             throw new AppError("O cep deve ter 8 numeros!", 400);
         }
