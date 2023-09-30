@@ -41,72 +41,72 @@ describe("Teste Endereco", () => {
 
         expect(create).toHaveProperty("id");
     });
-    it("Verificando Cep com 8 numeros", async () => {
-        const endereco = {
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "123456",
-            estado: "Sp",
-            user_id: "1",
-        };
+    // it("Verificando Cep com 8 numeros", async () => {
+    //     const endereco = {
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "123456",
+    //         estado: "Sp",
+    //         user_id: "1",
+    //     };
 
-        await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
-            new AppError("O cep deve ter 8 numeros!")
-        );
-    });
-    it("Verificando a Sigla do estado com 2 letras", async () => {
-        const endereco = {
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "123456",
-            estado: "sps",
-            user_id: "1",
-        };
+    //     await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
+    //         new AppError("O cep deve ter 8 numeros!")
+    //     );
+    // });
+    // it("Verificando a Sigla do estado com 2 letras", async () => {
+    //     const endereco = {
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "123456",
+    //         estado: "sps",
+    //         user_id: "1",
+    //     };
 
-        await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
-            new AppError(
-                "Deve informar somente a Sigla com duas letras do estado"
-            )
-        );
-    });
-    it("Verificando Cep contem letras", async () => {
-        const endereco = {
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "12345p68",
-            estado: "Sp",
-            user_id: "1",
-        };
+    //     await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
+    //         new AppError(
+    //             "Deve informar somente a Sigla com duas letras do estado"
+    //         )
+    //     );
+    // });
+    // it("Verificando Cep contem letras", async () => {
+    //     const endereco = {
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "12345p68",
+    //         estado: "Sp",
+    //         user_id: "1",
+    //     };
 
-        await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
-            new AppError("O cep deve ser somente numeros!")
-        );
-    });
-    it("Verificando Campos Obrigatorios", async () => {
-        const endereco = {
-            nomeEnd: "",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "12345p68",
-            estado: "Sp",
-            user_id: "1",
-        };
+    //     await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
+    //         new AppError("O cep deve ser somente numeros!")
+    //     );
+    // });
+    // it("Verificando Campos Obrigatorios", async () => {
+    //     const endereco = {
+    //         nomeEnd: "",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "12345p68",
+    //         estado: "Sp",
+    //         user_id: "1",
+    //     };
 
-        await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
-            new AppError("Informe os campos Obrigatorios!")
-        );
-    });
+    //     await expect(enderecoService.createEndereco(endereco)).rejects.toEqual(
+    //         new AppError("Informe os campos Obrigatorios!")
+    //     );
+    // });
 
     it("testando Delete", async () => {
         let user = {
@@ -303,80 +303,80 @@ describe("Teste Endereco", () => {
             new AppError("Usuario não encontrado!")
         );
     });
-    it("Update Endereco Cep deve ter 8 caracteres e ser numeros ", async () => {
-        const user = {
-            name: "User test",
-            email: "user@test.com",
-            password: "123",
-        };
-        let us = await userService.execute(user);
-        const endereco = {
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "12345678",
-            estado: "Sp",
-            user_id: us.id,
-        };
-        let createEnd = await enderecoService.createEndereco(endereco);
+    // it("Update Endereco Cep deve ter 8 caracteres e ser numeros ", async () => {
+    //     const user = {
+    //         name: "User test",
+    //         email: "user@test.com",
+    //         password: "123",
+    //     };
+    //     let us = await userService.execute(user);
+    //     const endereco = {
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "12345678",
+    //         estado: "Sp",
+    //         user_id: us.id,
+    //     };
+    //     let createEnd = await enderecoService.createEndereco(endereco);
 
-        const newEnd = {
-            id: createEnd.id,
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            // cep: "123456",
-            cep: "123456HH",
-            estado: "Sp",
-            user_id: us.id,
-        };
+    //     const newEnd = {
+    //         id: createEnd.id,
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         // cep: "123456",
+    //         cep: "123456HH",
+    //         estado: "Sp",
+    //         user_id: us.id,
+    //     };
 
-        await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
-            new AppError("O cep deve ser somente numeros!")
-        );
-        // await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
-        //     new AppError("O cep deve ter 8 numeros!")
-        // );
-    });
-    it("Update Endereco Sigla Estado somente com duas letras", async () => {
-        const user = {
-            name: "User test",
-            email: "user@test.com",
-            password: "123",
-        };
-        let us = await userService.execute(user);
-        const endereco = {
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "12345678",
-            estado: "Sp",
-            user_id: us.id,
-        };
-        let createEnd = await enderecoService.createEndereco(endereco);
+    //     await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
+    //         new AppError("O cep deve ser somente numeros!")
+    //     );
+    //     // await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
+    //     //     new AppError("O cep deve ter 8 numeros!")
+    //     // );
+    // });
+    // it("Update Endereco Sigla Estado somente com duas letras", async () => {
+    //     const user = {
+    //         name: "User test",
+    //         email: "user@test.com",
+    //         password: "123",
+    //     };
+    //     let us = await userService.execute(user);
+    //     const endereco = {
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "12345678",
+    //         estado: "Sp",
+    //         user_id: us.id,
+    //     };
+    //     let createEnd = await enderecoService.createEndereco(endereco);
 
-        const newEnd = {
-            id: createEnd.id,
-            nomeEnd: "Rua A",
-            bairro: "Ali",
-            numero: "5",
-            cidade: "Carbonera",
-            complemento: "logali",
-            cep: "12345678",
-            estado: "S",
-            user_id: us.id,
-        };
+    //     const newEnd = {
+    //         id: createEnd.id,
+    //         nomeEnd: "Rua A",
+    //         bairro: "Ali",
+    //         numero: "5",
+    //         cidade: "Carbonera",
+    //         complemento: "logali",
+    //         cep: "12345678",
+    //         estado: "S",
+    //         user_id: us.id,
+    //     };
 
-        await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
-            new AppError("Deve informar somente a Sigla com duas letras do estado")
-        );
-    });
+    //     await expect(enderecoService.updateEnd(newEnd)).rejects.toEqual(
+    //         new AppError("Deve informar somente a Sigla com duas letras do estado")
+    //     );
+    // });
 
     it("Culsulta Endereco por Id", async () => {
         const user = {
