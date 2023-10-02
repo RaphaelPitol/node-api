@@ -7,41 +7,67 @@ const shechemEnd = z.object({
     nomeEnd: z.string().nonempty({ message: "Informe o endereço!" }),
     bairro: z.string().nonempty({ message: "Informe o bairro!" }),
 
-    numero: z.union([z.number(), z.string()])
+    numero: z
+        .union([z.number(), z.string()])
         .transform((value) => {
             if (typeof value === "string" && /^\d+$/.test(value)) {
                 return parseInt(value, 10);
             }
             return value;
-        }).refine((value) => typeof value === "number", {
+        })
+        .refine((value) => typeof value === "number", {
             message: "O número deve ser um valor numérico!",
-        }).refine((val) => val > 0, {
+        })
+        .refine((val) => val > 0, {
             message: "Informe um número válido",
         }),
 
     cidade: z.string().nonempty({ message: "Adicione uma cidade!" }),
     complemento: z.string().optional(),
 
-    cep: z.string().length(8, { message: "O cep deve ter 8 números!" })
+    cep: z
+        .string()
+        .length(8, { message: "O cep deve ter 8 números!" })
         .regex(/^\d{8}$/, { message: "O cep deve conter apenas números" }),
 
-    estado: z.string()
-    .length(2, { message: "Insira com duas letras a sigla!" })
-    .nonempty({ message: "Informe o Estado" })
-    .refine(value => !/\d/.test(value), { message: "A sigla do estado não pode conter números" }),
+    estado: z
+        .string()
+        .length(2, { message: "Insira com duas letras a sigla!" })
+        .nonempty({ message: "Informe o Estado" })
+        .refine((value) => !/\d/.test(value), {
+            message: "A sigla do estado não pode conter números",
+        }),
 
-    user_id: z.union([z.number(), z.string()]).transform((value) => {
+    user_id: z
+        .union([z.number(), z.string()])
+        .transform((value) => {
+            if (typeof value === "string" && /^\d+$/.test(value)) {
+                return parseInt(value, 10);
+            }
+            return value;
+        })
+        .refine((value) => typeof value === "number", {
+            message: "Informe o Usuario!",
+        })
+        .refine((val) => val > 0, {
+            message: "Informe o Usuario!",
+        }),
+});
+
+const schemaId = z
+    .union([z.number(), z.string()])
+    .transform((value) => {
         if (typeof value === "string" && /^\d+$/.test(value)) {
             return parseInt(value, 10);
         }
         return value;
-    }).refine((value) => typeof value === "number", {
-        message: "Informe o Usuario!",
-    }).refine((val) => val > 0, {
-        message: "Informe o Usuario!",
-    }),
-
-});
+    })
+    .refine((value) => typeof value === "number", {
+        message: "Informe um Endereço valido!",
+    })
+    .refine((val) => val > 0, {
+        message: "Informe um Endereço valido!",
+    });
 
 class EnderecoController {
     async create(request, response) {
@@ -116,6 +142,16 @@ class EnderecoController {
     async delete(request, response) {
         const { id } = request.params;
 
+        const valiSchema = schemaId.safeParse(id);
+
+        if (!valiSchema.success) {
+            return response
+            .status(400)
+            .json({ message: valiSchema.error.issues});
+        } else {
+            console.log(valiSchema.data);
+        }
+
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
 
@@ -135,6 +171,16 @@ class EnderecoController {
 
     async index(request, response) {
         const { id } = request.params;
+
+        const valiSchema = schemaId.safeParse(id);
+
+        if (!valiSchema.success) {
+            return response
+            .status(400)
+            .json({ message: valiSchema.error.issues});
+        } else {
+            console.log(valiSchema.data);
+        }
 
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
