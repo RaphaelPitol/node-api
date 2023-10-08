@@ -54,7 +54,9 @@ class EnderecoRepository {
         return;
     }
 
-    async lista() {
+    async lista({page, limit}) {
+
+        console.log("Pagina=", page,"e limit", limit)
         const list = await knex("endereco")
             .join("users", "endereco.user_id", "=", "users.id")
             .select(
@@ -67,7 +69,11 @@ class EnderecoRepository {
                 "endereco.cep",
                 "endereco.estado",
                 "users.name"
-            ).orderBy("endereco.id", "desc");
+            )
+            .orderBy("endereco.id", "asc")
+            .offset((page * limit) - limit)
+            .limit(limit);
+
 
         return list;
     }
@@ -78,6 +84,33 @@ class EnderecoRepository {
             .first();
 
         return endIndex;
+    }
+
+    async buscaPorLetra({ nomeEnd, bairro, numero, cidade, cep, estado, nome }) {
+
+        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome)
+        const busca = await knex("endereco")
+            .join("users", "endereco.user_id", "=", "users.id")
+            .select(
+                "endereco.id",
+                "endereco.nomeEnd",
+                "endereco.bairro",
+                "endereco.numero",
+                "endereco.cidade",
+                "endereco.complemento",
+                "endereco.cep",
+                "endereco.estado",
+                "users.name"
+            )
+            .whereLike("nomeEnd",`%${nomeEnd}%`)
+            .whereLike("bairro", `%${bairro}%`)
+            .whereLike("numero", `%${numero}%`)
+            .whereLike("cidade", `%${cidade}%`)
+            .whereLike("cep", `%${cep}%`)
+            .whereLike("estado", `%${estado}%`)
+            .whereLike("users.name", `%${nome}%`)
+
+        return busca;
     }
 }
 

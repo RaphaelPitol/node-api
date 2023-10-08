@@ -11,6 +11,7 @@ carsRoutes.post('/',ensureAutenticated,carsController.create)
 carsRoutes.put('/', ensureAutenticated, carsController.update)
 carsRoutes.get('/',ensureAutenticated,carsController.lista)
 carsRoutes.get('/:id',ensureAutenticated,carsController.index)
+carsRoutes.get('/:id',ensureAutenticated,carsController.index)
 carsRoutes.delete('/:id',ensureAutenticated,carsController.delete)
 
 

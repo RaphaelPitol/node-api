@@ -146,8 +146,8 @@ class EnderecoController {
 
         if (!valiSchema.success) {
             return response
-            .status(400)
-            .json({ message: valiSchema.error.issues});
+                .status(400)
+                .json({ message: valiSchema.error.issues });
         } else {
             console.log(valiSchema.data);
         }
@@ -161,31 +161,89 @@ class EnderecoController {
     }
 
     async lista(request, response) {
+        const { page = 1 } = request.query;
+        const { limit = 5 } = request.query
+
+        var lastPage = 1;
+
+
+
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
 
-        const list = await enderecoService.listaEnd();
 
-        return response.json(list);
+        const listEn = await enderecoService.listaEnd({});
+        const list = await enderecoService.listaEnd({page, limit});
+
+
+        let countEnd = 0;
+        for (let i = 0; i < listEn.length; i++) {
+            countEnd++;
+        }
+
+        console.log(countEnd)
+        if(countEnd !== 0){
+            lastPage = Math.ceil(countEnd / limit)
+            console.log(lastPage)
+        }else{
+            return response.status(400).json({
+                message:"Erro: Nenhum endereço encontrado!"
+            })
+        }
+
+       let paginatin = {
+        path: "/endereco",
+        page,
+        prevPage: page - 1 >= 1 ? page - 1 : page,
+        nextPage: Number(page) + Number(1) > Number(lastPage) ? false : Number(page) + Number(1),
+        lastPage,
+        countEnd
+
+       }
+
+       console.log(paginatin)
+        return response.json({list, paginatin});
     }
 
     async index(request, response) {
         const { id } = request.params;
 
-        const valiSchema = schemaId.safeParse(id);
+        // const valiSchema = schemaId.safeParse(id);
 
-        if (!valiSchema.success) {
-            return response
-            .status(400)
-            .json({ message: valiSchema.error.issues});
-        } else {
-            console.log(valiSchema.data);
-        }
+        // if (!valiSchema.success) {
+        //     return response
+        //     .status(400)
+        //     .json({ message: valiSchema.error.issues});
+        // } else {
+        //     console.log(valiSchema.data);
+        // }
 
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
 
         const end = await enderecoService.endIndex({ id });
+
+        return response.json(end);
+    }
+
+    async buscaPorLetra(request, response) {
+        const { nomeEnd, bairro, numero, cidade, cep, estado, nome } =
+            request.query;
+
+        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome);
+
+        const enderecoRepository = new EnderecoRepository();
+        const enderecoService = new EnderecoService(enderecoRepository);
+
+        const end = await enderecoService.busca({
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            cep,
+            estado,
+            nome,
+        });
 
         return response.json(end);
     }

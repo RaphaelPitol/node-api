@@ -115,8 +115,8 @@ class EnderecoService {
         await this.enderecoRepository.delete({ id });
     }
 
-    async listaEnd() {
-        const list = await this.enderecoRepository.lista();
+    async listaEnd({page, limit}) {
+        const list = await this.enderecoRepository.lista({page, limit});
 
         return list;
     }
@@ -128,6 +128,23 @@ class EnderecoService {
         }
 
         return end;
+    }
+
+    async busca({nomeEnd, bairro, numero, cidade, cep, estado, nome}){
+
+        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome)
+        const n = await this.enderecoRepository.buscaPorLetra({
+            nomeEnd: nomeEnd ? nomeEnd : "",
+            bairro: bairro ? bairro : "",
+            numero: numero ? numero : "",
+            cidade: cidade ? cidade : "",
+            cep: cep ? cep : "",
+            estado: estado ? estado : "",
+            nome: nome ? nome : ""})
+        console.log("teste")
+        console.log(n)
+
+        return n;
     }
 }
 module.exports = EnderecoService;
