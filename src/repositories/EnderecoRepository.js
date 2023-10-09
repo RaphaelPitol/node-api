@@ -54,9 +54,8 @@ class EnderecoRepository {
         return;
     }
 
-    async lista({page, limit}) {
-
-        console.log("Pagina=", page,"e limit", limit)
+    async lista(page) {
+        console.log("$$$$$$", page);
         const list = await knex("endereco")
             .join("users", "endereco.user_id", "=", "users.id")
             .select(
@@ -71,11 +70,18 @@ class EnderecoRepository {
                 "users.name"
             )
             .orderBy("endereco.id", "asc")
-            .offset((page * limit) - limit)
-            .limit(limit);
+            .limit(5)
+            .offset(page);
+
+        console.log(list);
+        const tmp = await knex("endereco").count("*").first();
+
+        console.log("uuuuuuu",tmp);
+
+        const rowCount = tmp[`count(*)`];
 
 
-        return list;
+        return { list, rowCount };
     }
     async index({ id }) {
         const endIndex = await knex("endereco")
@@ -86,9 +92,18 @@ class EnderecoRepository {
         return endIndex;
     }
 
-    async buscaPorLetra({ nomeEnd, bairro, numero, cidade, cep, estado, nome }) {
-
-        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome)
+    async buscaPorLetra({
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        cep,
+        estado,
+        nome,
+        page,
+    }) {
+        console.log("testeeee");
+        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome);
         const busca = await knex("endereco")
             .join("users", "endereco.user_id", "=", "users.id")
             .select(
@@ -102,13 +117,16 @@ class EnderecoRepository {
                 "endereco.estado",
                 "users.name"
             )
-            .whereLike("nomeEnd",`%${nomeEnd}%`)
+            .whereLike("nomeEnd", `%${nomeEnd}%`)
             .whereLike("bairro", `%${bairro}%`)
             .whereLike("numero", `%${numero}%`)
             .whereLike("cidade", `%${cidade}%`)
             .whereLike("cep", `%${cep}%`)
             .whereLike("estado", `%${estado}%`)
             .whereLike("users.name", `%${nome}%`)
+            .orderBy("endereco.id", "asc")
+            .offset(page * 5)
+            .limit(5);
 
         return busca;
     }

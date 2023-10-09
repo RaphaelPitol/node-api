@@ -1,7 +1,5 @@
 const AppError = require("../utils/AppError");
 
-
-
 class EnderecoService {
     constructor(enderecoRepository, userRepository) {
         this.enderecoRepository = enderecoRepository;
@@ -115,10 +113,12 @@ class EnderecoService {
         await this.enderecoRepository.delete({ id });
     }
 
-    async listaEnd({page, limit}) {
-        const list = await this.enderecoRepository.lista({page, limit});
+    async listaEnd({page}) {
 
-        return list;
+        console.log("=====", page)
+        const {list, rowCount} = await this.enderecoRepository.lista(page);
+
+        return {list, rowCount};
     }
 
     async endIndex({ id }) {
@@ -130,9 +130,28 @@ class EnderecoService {
         return end;
     }
 
-    async busca({nomeEnd, bairro, numero, cidade, cep, estado, nome}){
-
-        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome)
+    async busca({
+        nomeEnd,
+        bairro,
+        numero,
+        cidade,
+        cep,
+        estado,
+        nome,
+        page,
+        limit,
+    }) {
+        console.log(
+            nomeEnd,
+            bairro,
+            numero,
+            cidade,
+            cep,
+            estado,
+            nome,
+            page,
+            limit
+        );
         const n = await this.enderecoRepository.buscaPorLetra({
             nomeEnd: nomeEnd ? nomeEnd : "",
             bairro: bairro ? bairro : "",
@@ -140,9 +159,12 @@ class EnderecoService {
             cidade: cidade ? cidade : "",
             cep: cep ? cep : "",
             estado: estado ? estado : "",
-            nome: nome ? nome : ""})
-        console.log("teste")
-        console.log(n)
+            nome: nome ? nome : "",
+            page: page
+
+        });
+        console.log("teste");
+        console.log(n);
 
         return n;
     }

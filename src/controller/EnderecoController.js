@@ -161,48 +161,21 @@ class EnderecoController {
     }
 
     async lista(request, response) {
-        const { page = 1 } = request.query;
-        const { limit = 5 } = request.query
 
-        var lastPage = 1;
+        const {page} = request.params
 
-
-
+        console.log(page)
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
 
 
-        const listEn = await enderecoService.listaEnd({});
-        const list = await enderecoService.listaEnd({page, limit});
+        const {list, rowCount} = await enderecoService.listaEnd({page});
+
+        console.log(list)
 
 
-        let countEnd = 0;
-        for (let i = 0; i < listEn.length; i++) {
-            countEnd++;
-        }
 
-        console.log(countEnd)
-        if(countEnd !== 0){
-            lastPage = Math.ceil(countEnd / limit)
-            console.log(lastPage)
-        }else{
-            return response.status(400).json({
-                message:"Erro: Nenhum endereço encontrado!"
-            })
-        }
-
-       let paginatin = {
-        path: "/endereco",
-        page,
-        prevPage: page - 1 >= 1 ? page - 1 : page,
-        nextPage: Number(page) + Number(1) > Number(lastPage) ? false : Number(page) + Number(1),
-        lastPage,
-        countEnd
-
-       }
-
-       console.log(paginatin)
-        return response.json({list, paginatin});
+        return response.json({list, rowCount});
     }
 
     async index(request, response) {
@@ -230,10 +203,18 @@ class EnderecoController {
         const { nomeEnd, bairro, numero, cidade, cep, estado, nome } =
             request.query;
 
-        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome);
+        const { page } = request.query;
+        // const { limit } = request.query;
+
+        var lastPage = 1;
+
+        console.log(nomeEnd, bairro, numero, cidade, cep, estado, nome, page );
 
         const enderecoRepository = new EnderecoRepository();
         const enderecoService = new EnderecoService(enderecoRepository);
+
+        const listEn = await enderecoService.listaEnd({});
+        // const list = await enderecoService.listaEnd({ page, limit });
 
         const end = await enderecoService.busca({
             nomeEnd,
@@ -243,7 +224,40 @@ class EnderecoController {
             cep,
             estado,
             nome,
+            page
+
         });
+
+        // let countEnd = 0;
+        // for (let i = 0; i < listEn.length; i++) {
+        //     countEnd++;
+        // }
+
+        // console.log(countEnd);
+        // if (countEnd !== 0) {
+        //     lastPage = Math.ceil(countEnd / limit);
+        //     // console.log(lastPage);
+        // } else {
+        //     return response.status(400).json({
+        //         message: "Erro: Nenhum endereço encontrado!",
+        //     });
+        // }
+
+        // let paginatin = {
+        //     path: "/endereco",
+        //     page,
+        //     prevPage: page - 1 >= 1 ? page - 1 : page,
+        //     nextPage:
+        //         Number(page) + Number(1) > Number(lastPage)
+        //             ? lastPage
+        //             : Number(page) + Number(1),
+        //     lastPage,
+        //     countEnd,
+        // };
+
+        // console.log(paginatin);
+
+
 
         return response.json(end);
     }

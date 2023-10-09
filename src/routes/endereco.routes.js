@@ -5,12 +5,12 @@ const enderecoRoutes = Router()
 
 const enderecoController = new EnderecoController()
 
+enderecoRoutes.get('/:page',enderecoController.lista)
 enderecoRoutes.post('/', enderecoController.create)
 enderecoRoutes.delete('/:id',enderecoController.delete)
 enderecoRoutes.get('/:id',enderecoController.index)
 enderecoRoutes.put('/', enderecoController.update)
-enderecoRoutes.get('/',enderecoController.lista)
-enderecoRoutes.get('/nome/:nome',enderecoController.buscaPorLetra)
+enderecoRoutes.get('/:busca',enderecoController.buscaPorLetra)
 
 
 
